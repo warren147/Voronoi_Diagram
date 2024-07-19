@@ -15,15 +15,28 @@ public class VoronoiPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 points.add(new Point2D.Double(e.getX(), e.getY()));
+                System.out.println("Point added: " + e.getX() + ", " + e.getY());
                 repaint();
             }
         });
     }
 
     public void generateVoronoi() {
-        Voronoi voronoi = new Voronoi();
-        Voronoi.VoronoiDiagram diagram = voronoi.compute(points, 0.5);
+        if (points.isEmpty()) {
+            System.out.println("No points to generate Voronoi diagram."); // Debug statement
+            return;
+        }
+
+        VoronoiAlgorithm voronoi = new VoronoiAlgorithm();
+        VoronoiAlgorithm.VoronoiDiagram diagram = voronoi.compute(points, 0.5);
         voronoiCells = diagram.getCells();
+
+        // Debug statements
+        System.out.println("Voronoi cells computed:");
+        for (List<Point2D> cell : voronoiCells) {
+            System.out.println(cell);
+        }
+
         repaint();
     }
 
@@ -34,8 +47,9 @@ public class VoronoiPanel extends JPanel {
 
         // Draw points
         g2d.setColor(Color.RED);
+        int pointSize = 10;
         for (Point2D point : points) {
-            g2d.fill(new Ellipse2D.Double(point.getX() - 2, point.getY() - 2, 4, 4));
+            g2d.fill(new Ellipse2D.Double(point.getX() - (double) pointSize / 2, point.getY() - (double) pointSize / 2, pointSize, pointSize));
         }
 
         // Draw Voronoi cells

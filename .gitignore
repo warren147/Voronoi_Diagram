@@ -1,0 +1,8 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+/manifest.txt
+/VoronoiDiagram
+.idea/
+.META-INF/
+.out/
